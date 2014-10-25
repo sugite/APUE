@@ -42,3 +42,7 @@ ssize_t read(int fd , void *buf , size_t nbytes);
 #include<unistd.h>
 ssize_t write(int fd , const void *buf , size_t bbytes);
 
+***两个进程打开同一个文件，打开该文件的每一个进程都获得一个各自的文件表项，
+文件表项中记录了文件状态标志（读、写、同步）以及当前文件偏移量等信息，但对
+一个给定的文件只有一个v节点表项。v节点表项包括当前文件长度以及数据块在磁盘
+上所在位置指针等信息。
