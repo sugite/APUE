@@ -1,0 +1,44 @@
+在POSIX.1 应用程序中，幻数0，1，2虽然已经被标准化，但应当把它们替换成符号常量
+STDIN_FILENO,STDOUT_FILENO,STDERR_FILENO以提高可读性，这些常量都在头文件
+<unistd.h>中定义
+
+函数open和openat:
+#include<fcntl.h>
+int open(const char* path,int oflag,.../* mode_t mode */);
+int openat(int fd,const char* path,int oflag ,.../* mode_t mode */);
+两函数的返回值：若成功，返回文件描述符，否则返回-1
+由这两个函数返回的文件描述符一定是最小的未用描述符数值。
+
+函数creat：
+#include<fcntl.h>
+int creat(const char *path,mode_t mode );
+此函数等效于：
+open(path,O_WRONLY | O_CREAT | O_TRUNC,mode);
+
+函数close:
+#include<unistd.h>
+int close(int fd);   return 0 or -1
+注：关闭一个文件时还会释放该进程加在该文件上的所有记录锁
+
+函数lseek：
+#include<unistd.h>
+off_t lseek(int fd ,off_t offset,int whence);
+若成功，返回新的文件偏移量，否则返回-1
+whence==SEEK_SET 将文件偏移量设置为距文件开始处offset个字节
+whence==SEEK_CUR 将文件偏移量设置为其当前值加上offset，offset可正可负
+whence==SEEK_END 将文件偏移量设置为文件长度加offset,offset可正可负
+因此可以用以下方式确定打开文件的当前偏移量：
+off_t currpos ;
+currpos = lseek(fd,0,SEEK_CUR);
+
+通常文件偏移量是非负的，但是一些设备也可能允许负的偏移量，所以在比较lseek的返回值
+的时候应当谨慎，不要测试它是否小于0，而要测试是否等于-1
+
+函数read：
+#include<unistd.h>
+ssize_t read(int fd , void *buf , size_t nbytes);
+
+函数write：
+#include<unistd.h>
+ssize_t write(int fd , const void *buf , size_t bbytes);
+
