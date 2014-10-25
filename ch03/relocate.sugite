@@ -1,0 +1,21 @@
+关于linux重定向的一些解释：
+
+>>file 若file存在，则在最后append，不存在则新建
+>file  若file存在，则先清空再添加，不存在则新建
+
+&>file 表示重定向标准输出和错误到file
+n>&m   表示使文件描述符n成为m的副本，即让n的文件指针指向m的文件表
+
+./a.out > outfile 2>&1
+	执行顺序：
+		open(outfile)==3
+		dup2(3,1)
+		dup2(1,2)
+
+./a.out 2>&1 > outfile
+	执行顺序：
+		dup2(1,2)
+		open(outfile)==3
+		dup2(3,1)
+
+
