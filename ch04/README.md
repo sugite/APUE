@@ -72,5 +72,22 @@ lstat可以检测符号链接，而stat不会
 ![文件系统实例](./FSInstance.jpg)     
 可以看出，任一叶子目录的链接计数总为2
 
+函数link、linkat、unlink、unlinkat、remove
+------------------------------------------
+
+如上节所示，任何一个文件可以有多个目录项指向其i节点   
+```C
+#include<unistd.h>
+int link(const char *existpath,const char *newpath);
+int linkat(int efd,const char *existpath,int nfd,const char *newpath,int flag);
+//return 0 or -1
+```
+为了删除一个现有的目录项，可用调用unlink函数。   
+```C
+#include<unistd.h>
+int unlink(const char *pathname);
+int unlinkat(int fd,const char *pathname,int flag);
+```
+前面已经提及，为了解除对文件的链接，必须对包含该目录项的目录具有写和执行的权限。   
 
 
