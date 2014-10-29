@@ -89,5 +89,29 @@ int unlink(const char *pathname);
 int unlinkat(int fd,const char *pathname,int flag);
 ```
 前面已经提及，为了解除对文件的链接，必须对包含该目录项的目录具有写和执行的权限。   
+我们也可以用remove函数解除对一个文件或目录的链接，对于文件，remove==unlink，对于目录，remove==rmdir   
+```C
+#include<unistd.h>
+int remove(const char *pathname);
+```
+
+读目录  
+------
+
+```C
+#include<dirent.h>
+DIR *opendir(const char *pathname);
+DIR *fdopendir(int fd);
+
+struct dirent *readdir(DIR *dp);
+
+void rewinddir(DIR *dp);
+int closedir(DIR *dp);
+
+long telldir(DIR *dp);
+
+void seekdir(DIR *dp,long loc);
+```
+
 
 
