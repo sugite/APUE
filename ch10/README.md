@@ -35,4 +35,6 @@ Sigfunc *signal(int , Sigfunc *);
 #define SIG_IGN (void (*)())1
 ```
 
+**当进程第一次执行时，所有的信号都被设为默认操作，除非父进程忽略它们**
+
 
